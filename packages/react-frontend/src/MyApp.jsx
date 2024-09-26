@@ -1,6 +1,6 @@
 // src/MyApp.jsx
 import React from "react"; // need this 
-import Table from "./Table";
+import Table from "./table";
 
 export default function MyApp() {
     return (
