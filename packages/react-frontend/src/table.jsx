@@ -14,39 +14,35 @@ function TableHeader() {
     );
 }
 
-function TableBody() {
+function TableBody(props) {
+    let data = props.characterData
+    //  to not mix html with js we are seperating logic for rows from return
+    // index is used from maps to make a key for array 
+    let rows = data.map((character, index) => {
+        return (
+            <tr key={index}>
+                <td>{character.name}</td>
+                <td>{character.job}</td>
+            </tr>
+        )
+    })
+
     return (
         <tbody>
-            {/* table row */}
-            <tr>
-                {/* table data */}
-                <td>Charlie</td>
-                <td>Janitor</td>
-            </tr>
-            <tr>
-                <td>Mac</td>
-                <td>Bouncer</td>
-            </tr>
-            <tr>
-                <td>Dee</td>
-                <td>Aspiring actress</td>
-            </tr>
-            <tr>
-                <td>Dennis</td>
-                <td>Bartender</td>
-            </tr>
+            {rows}
         </tbody>
     )
 }
 
-export default function Table() {
+export default function Table(props) {
     return (
         // table (semantic)
         <table>
             {/* table header section */}
             <TableHeader/>
             {/* table body */}
-            <TableBody/>
+            <TableBody characterData={props.characterData}/>
         </table>
     );
 }
+
