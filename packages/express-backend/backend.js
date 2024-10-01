@@ -53,8 +53,11 @@ const findUserByName = (name) => {
     return users["users_list"].filter( (user) => user["name"] === name)
 }
 
-app.get("/users", (req, res) => {
+const findUserByID = (id) => {
+    return users.users_list.find(user => user.id === id)
+}
 
+app.get("/users", (req, res) => {
     const name = req.query.name;
     if (name) {
         let result = findUserByName(name)
@@ -64,18 +67,26 @@ app.get("/users", (req, res) => {
         res.send(users)
     }
 
+    // my implementation (this is flawed in the sense that it has a lack of consistent strucutre amongst the differnt calls, and )
+    // if (req.query.name){
+    //     let user = users.users_list.find((user) => {
+    //         return user.name === req.query["name"]
+    //     })
+    //     if (user) {
+    //         res.send(user)
+    //     }
+    //     res.send("User Not Found")
+    // }
+    // res.send(users)
 
-// my implementation (this is flawed in the sense that it has a lack of consistent strucutre amongst the differnt calls, and )
-    if (req.query.name){
-        let user = users.users_list.find((user) => {
-            return user.name === req.query["name"]
-        })
-        if (user) {
-            res.send(user)
-        }
-        res.send("User Not Found")
+})
+
+app.get("/users/:id", (req, res) => {
+    let id = req.params.id
+    let user = findUserByID(id)
+    if (user) {
+        return res.status(200).send({ users_list :  user }) // user found 
     }
-    res.send(users)
-
+    res.status(404).send({users_list : []}) // user not found
 })
 
