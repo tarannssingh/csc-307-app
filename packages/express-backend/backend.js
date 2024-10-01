@@ -48,6 +48,34 @@ const users = {
 };
 
 // It uses res.json in the background to send the data 
+const findUserByName = (name) => {
+    // The filter is not selecting one, but getting all of the users with that name
+    return users["users_list"].filter( (user) => user["name"] === name)
+}
+
 app.get("/users", (req, res) => {
+
+    const name = req.query.name;
+    if (name) {
+        let result = findUserByName(name)
+        result = { users_list : result } // this is keeping a similar structure to if we got all of them
+        res.send(result)
+    } else {
+        res.send(users)
+    }
+
+
+// my implementation (this is flawed in the sense that it has a lack of consistent strucutre amongst the differnt calls, and )
+    if (req.query.name){
+        let user = users.users_list.find((user) => {
+            return user.name === req.query["name"]
+        })
+        if (user) {
+            res.send(user)
+        }
+        res.send("User Not Found")
+    }
     res.send(users)
+
 })
+
