@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 
-const users = {
+let users = {
   users_list: [
     {
       id: "xyz789",
@@ -62,12 +62,26 @@ const addUser =  (user) => {
   // return user
 }
 
+const deleteUserById = (id) => {
+  users["users_list"] = users["users_list"].filter(user => user.id != id)
+}
+
+const findUserByNameAndJob = (name, job) => {
+  return users["users_list"].filter(user => user.name === name && user.job === job)
+}
+
 app.get("/users", (req, res) => {
     const name = req.query.name;
-    if (name) {
-        let result = findUserByName(name)
-        result = { users_list : result } // this is keeping a similar structure to if we got all of them
-        res.send(result)
+    const job = req.query.job;
+    if (name && job) {
+      let result = findUserByNameAndJob(name, job);
+      result = {user_list : result}
+      res.send(result)
+    }
+    else if (name) {
+      let result = findUserByName(name)
+      result = { users_list : result } // this is keeping a similar structure to if we got all of them
+      res.send(result)
     } else {
         res.send(users)
     }
@@ -101,3 +115,10 @@ app.post("/users", (req, res) => {
     addUser(user)
     return res.status(201).send()
 })
+
+
+app.delete("/users/:id", (req, res) => {
+  let id = req.params["id"]
+  deleteUserById(id)
+  return res.status(204).send()
+}) 
