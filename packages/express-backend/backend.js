@@ -57,6 +57,11 @@ const findUserByID = (id) => {
     return users.users_list.find(user => user.id === id)
 }
 
+const addUser =  (user) => {
+  users["users_list"].push(user)
+  // return user
+}
+
 app.get("/users", (req, res) => {
     const name = req.query.name;
     if (name) {
@@ -90,3 +95,9 @@ app.get("/users/:id", (req, res) => {
     res.status(404).send({users_list : []}) // user not found
 })
 
+
+app.post("/users", (req, res) => {
+    let user = req.body
+    addUser(user)
+    return res.status(201).send()
+})
