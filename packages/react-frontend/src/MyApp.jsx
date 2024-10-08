@@ -4,12 +4,38 @@ import Table from "./table";
 import { useState, useEffect} from "react";
 import Form from "./Form";
 
-function fetchUsers() {
-    const promise = fetch("http://localhost:8000/users")
-    return promise
-}
 
 export default function MyApp() {
+    function fetchUsers() {
+        const promise = fetch("http://localhost:8000/users")
+        return promise
+    }
+    
+    function postUser(user) {
+        // do a post call with the person in the body
+        const promise = fetch("http://localhost:8000/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+        return promise
+    }
+    
+    function removeOneCharacter(index) {
+        setCharacters(characters.filter((character, i) => {
+            return i !== index; 
+        }))
+    }
+
+    function updateList(person) {
+        postUser(person)
+            // .then(promise => promise.json()) Don't need as when the event is a success it won't go to catch and we know it worked if it goes into the then
+            .then(() => setCharacters([...characters, person])) // add the person to the list of characters
+            .catch(error => console.log(error))
+    }
+
     const [characters, setCharacters] = useState(
         []
     )
@@ -28,15 +54,6 @@ export default function MyApp() {
                 setCharacters([])
             })
     }, [])
-
-    function removeOneCharacter(index) {
-        setCharacters(characters.filter((character, i) => {
-            return i !== index; 
-        }))
-    }
-    function updateList(person) {
-        setCharacters([...characters, person]) // add the person to the list of characters
-    }
 
     return (
         <div className="container">
