@@ -1,13 +1,34 @@
 // src/MyApp.jsx
 import React from "react"; // need this 
 import Table from "./table";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import Form from "./Form";
+
+function fetchUsers() {
+    const promise = fetch("http://localhost:8000/users")
+    return promise
+}
 
 export default function MyApp() {
     const [characters, setCharacters] = useState(
         []
     )
+
+    useEffect(() => {
+        fetchUsers()
+            .then(promise => {
+                if (!promise.ok) {
+                    throw new Error("failed to properly fetch")
+                }
+                return promise.json()})
+            .then(json => 
+                setCharacters(json["users_list"]))
+            .catch(error => {
+                console.log(error);
+                setCharacters([])
+            })
+    }, [])
+
     function removeOneCharacter(index) {
         setCharacters(characters.filter((character, i) => {
             return i !== index; 

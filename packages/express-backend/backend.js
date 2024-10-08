@@ -1,9 +1,12 @@
 // backend.js
 import express from "express";
+import cors from "cors"
 
 const app = express();
 const port = 8000;
 
+// allow any domain to request 
+app.use(cors())
 // This is for the incoming requests
 app.use(express.json()); // apna middleware for express
 
