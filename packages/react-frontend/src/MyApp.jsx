@@ -22,11 +22,31 @@ export default function MyApp() {
         });
         return promise
     }
+
+    function deleteUser(user) {
+        const promise = fetch(`http://localhost:8000/users/${user.id}`, {
+            method: "DELETE",
+        })
+        return promise
+    }
     
     function removeOneCharacter(index) {
+        let c = {}
         setCharacters(characters.filter((character, i) => {
+            if (i === index) {
+                c = character
+            }
             return i !== index; 
         }))
+        deleteUser(c)
+            .then(response => {
+                if (response.status == 404) {
+                    throw new Error("User was not found. Could not delete")
+                } else if (response.status !== 204) {
+                    throw new Error("Error in deleting user. Try again.")
+                }
+            })
+            .catch(error => console.log(error))
     }
 
     function updateList(person) {
