@@ -31,19 +31,23 @@ export default function MyApp() {
     }
     
     function removeOneCharacter(index) {
-        let c = {}
-        setCharacters(characters.filter((character, i) => {
-            if (i === index) {
-                c = character
-            }
-            return i !== index; 
-        }))
+        // find the character id
+        let c = characters.find((character, i) => {
+            return i === index; 
+        })
         deleteUser(c)
             .then(response => {
                 if (response.status == 404) {
                     throw new Error("User was not found. Could not delete")
                 } else if (response.status !== 204) {
                     throw new Error("Error in deleting user. Try again.")
+                } else {
+                    setCharacters(characters.filter((character, i) => {
+                        if (i === index) {
+                            c = character
+                        }
+                        return i !== index; 
+                    }))
                 }
             })
             .catch(error => console.log(error))

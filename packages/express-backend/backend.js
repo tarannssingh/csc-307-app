@@ -134,6 +134,11 @@ app.post("/users", (req, res) => {
 
 app.delete("/users/:id", (req, res) => {
   let id = req.params["id"]
+  let intial = users["users_list"].length
   deleteUserById(id)
+  let final = users["users_list"].length
+  if (intial === final) {
+    return res.status(404).send()
+  }
   return res.status(204).send()
 }) 
