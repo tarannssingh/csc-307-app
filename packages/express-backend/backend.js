@@ -128,7 +128,7 @@ app.get("/users/:id", (req, res) => {
 app.post("/users", (req, res) => {
     let user = req.body
     addUser(user)
-    return res.status(201).send()
+    return res.status(201).send({user}) // this sends user with the new user id appended 
 })
 
 

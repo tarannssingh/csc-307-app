@@ -36,8 +36,9 @@ export default function MyApp() {
                 if (response.status !== 201) {
                     throw new Error("User not created")
                 }
-                setCharacters([...characters, person]) // add the person to the list of characters
+                return response.json()
             })
+            .then((json) => setCharacters([...characters, json.user]) ) // add the person to the list of characters
             .catch(error => console.log(error))
     }
 
