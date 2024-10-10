@@ -32,7 +32,12 @@ export default function MyApp() {
     function updateList(person) {
         postUser(person)
             // .then(promise => promise.json()) Don't need as when the event is a success it won't go to catch and we know it worked if it goes into the then
-            .then(() => setCharacters([...characters, person])) // add the person to the list of characters
+            .then((response) => {
+                if (response.status !== 201) {
+                    throw new Error("User not created")
+                }
+                setCharacters([...characters, person]) // add the person to the list of characters
+            })
             .catch(error => console.log(error))
     }
 
