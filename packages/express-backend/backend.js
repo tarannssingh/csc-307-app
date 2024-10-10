@@ -60,7 +60,19 @@ const findUserByID = (id) => {
     return users.users_list.find(user => user.id === id)
 }
 
+const generateID = () => {
+  let id = ""
+  for (let i = 0; i < 3; i++) {
+    id += parseInt(Math.random() * 1000)
+    // 97 to 122
+    // String.fromCharCode()
+  }
+  return id
+}
+
 const addUser =  (user) => {
+  let id = generateID()
+  user["id"] = id
   users["users_list"].push(user)
   // return user
 }
