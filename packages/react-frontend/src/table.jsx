@@ -24,7 +24,7 @@ function TableBody(props) {
         
         return (
             <tr key={index}>
-                <td>{character.id}</td>
+                <td>{character._id}</td>
                 <td>{character.name}</td>
                 <td>{character.job}</td>
                 <td>

@@ -24,7 +24,7 @@ export default function MyApp() {
     }
 
     function deleteUser(user) {
-        const promise = fetch(`http://localhost:8000/users/${user.id}`, {
+        const promise = fetch(`http://localhost:8000/users/${user._id}`, {
             method: "DELETE",
         })
         return promise
