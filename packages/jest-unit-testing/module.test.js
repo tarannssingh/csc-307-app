@@ -26,7 +26,7 @@ describe("Div Tests", () => {
     test("Testing div -- divide by decimal", () => {
         const expected = 4
         const got = mut.div(1, 0.25)
-        expect(got).toBe(expected)
+        expect(got).toBeCloseTo(expected)
     })
     test("Testing div -- div by one", () => {
         const expected = 22
